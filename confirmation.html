@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Confirmed — CodeCraft Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ============================================
+       CONFIRMATION PAGE STYLES
+       ============================================ */
+
+    .confirmation-hero {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f0f9ff 100%);
+      padding: 5rem 0 4rem;
+      text-align: center;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-success), #16a34a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2.5rem;
+      color: white;
+      box-shadow: 0 8px 24px rgba(34, 197, 94, 0.25);
+      animation: scaleIn 0.5s ease;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .confirmation-hero h1 {
+      margin-bottom: 0.75rem;
+      color: #166534;
+    }
+
+    .confirmation-hero > p {
+      font-size: 1.1rem;
+      color: var(--color-text-light);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ---- Receipt Card ---- */
+    .receipt-section {
+      padding: 3rem 0;
+      background: var(--color-bg);
+    }
+
+    .receipt-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--color-border);
+    }
+
+    .receipt-header {
+      text-align: center;
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px dashed var(--color-border);
+    }
+
+    .receipt-header h2 {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .receipt-header .receipt-ref {
+      font-family: 'SF Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.875rem 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.95rem;
+    }
+
+    .receipt-row:last-child {
+      border-bottom: none;
+    }
+
+    .receipt-row .label {
+      color: var(--color-text-light);
+    }
+
+    .receipt-row .value {
+      font-weight: 600;
+      color: var(--color-text);
+      text-align: right;
+    }
+
+    .receipt-row.total {
+      margin-top: 0.5rem;
+      padding-top: 1rem;
+      border-top: 2px solid var(--color-border);
+      border-bottom: none;
+      font-size: 1.1rem;
+    }
+
+    .receipt-row.total .label {
+      color: var(--color-text);
+      font-weight: 700;
+    }
+
+    .receipt-row.total .value {
+      color: var(--color-success);
+      font-size: 1.25rem;
+    }
+
+    .receipt-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #f0fdf4;
+      color: #166534;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .receipt-status::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-success);
+    }
+
+    /* ---- Next Steps ---- */
+    .next-steps {
+      background: white;
+      padding: 4rem 0;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .step-card {
+      background: var(--color-bg);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      text-align: center;
+      border: 1px solid var(--color-border);
+      transition: var(--transition);
+    }
+
+    .step-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .step-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .step-card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-card p {
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      line-height: 1.6;
+    }
+
+    /* ---- CTA Section ---- */
+    .confirmation-cta {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+      padding: 4rem 0;
+      text-align: center;
+      color: white;
+    }
+
+    .confirmation-cta h2 {
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .confirmation-cta p {
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 1.5rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .confirmation-cta .btn {
+      background: white;
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+
+    .confirmation-cta .btn:hover {
+      background: var(--color-bg);
+      transform: translateY(-2px);
+    }
+
+    /* ---- Print Styles ---- */
+    @media print {
+      .navbar, .confirmation-cta, .footer, .next-steps {
+        display: none;
+      }
+      .confirmation-hero {
+        padding: 2rem 0;
+      }
+      .receipt-card {
+        box-shadow: none;
+        border: 2px solid #000;
+      }
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      background: white;
+      border-bottom: 1px solid var(--color-border);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      z-index: 99;
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.75rem 0;
+      font-weight: 500;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .mobile-menu a:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>
+        CodeCraft<span>Academy</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="pricing.html" class="btn btn-primary">Enroll Now</a>
+        <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="courses.html">Courses</a>
+    <a href="about.html">About</a>
+    <a href="pricing.html">Pricing & Enrollment</a>
+  </div>
+
+  <!-- Confirmation Hero -->
+  <section class="confirmation-hero">
+    <div class="container reveal">
+      <div class="success-icon">✓</div>
+      <h1>Payment Successful!</h1>
+      <p>Welcome to CodeCraft Academy, <span id="studentName">Student</span>! Your enrollment is confirmed and we're thrilled to have you on board.</p>
+    </div>
+  </section>
+
+  <!-- Receipt -->
+  <section class="receipt-section">
+    <div class="container">
+      <div class="receipt-card reveal">
+        <div class="receipt-header">
+          <h2>Payment Receipt</h2>
+          <div class="receipt-ref" id="receiptRef">REF-0000000000</div>
+        </div>
+
+        <div class="receipt-row">
+          <span class="label">Student Name</span>
+          <span class="value" id="receiptName">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="label">Email</span>
+          <span class="value" id="receiptEmail">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="label">Payment Plan</span>
+          <span class="value" id="receiptPlan">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="label">Cohort</span>
+          <span class="value" id="receiptCohort">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="label">Payment Date</span>
+          <span class="value" id="receiptDate">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="label">Transaction Reference</span>
+          <span class="value" id="receiptReference">—</span>
+        </div>
+        <div class="receipt-row">
+          <span class="label">Status</span>
+          <span class="value"><span class="receipt-status">Paid</span></span>
+        </div>
+
+        <div class="receipt-row total">
+          <span class="label">Amount Paid</span>
+          <span class="value" id="receiptAmount">₵0.00</span>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button class="btn btn-outline" onclick="window.print()" style="margin-right: 0.5rem;">
+          🖨️ Print Receipt
+        </button>
+        <a href="index.html" class="btn btn-secondary">← Back to Home</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Next Steps -->
+  <section class="next-steps">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>What Happens Next?</h2>
+        <p>Here's your roadmap from payment to first day of class.</p>
+      </div>
+      <div class="steps-grid stagger-children">
+        <div class="step-card reveal">
+          <div class="step-number">1</div>
+          <h3>Check Your Email</h3>
+          <p>We've sent your welcome pack, onboarding checklist, and Discord invite to <span id="nextEmail">your email</span>.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-number">2</div>
+          <h3>Join Discord</h3>
+          <p>Connect with your cohort, meet your instructors, and get early access to prep materials.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-number">3</div>
+          <h3>Complete Onboarding</h3>
+          <p>Set up your dev environment, fill out your student profile, and review the pre-course materials.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-number">4</div>
+          <h3>First Day of Class</h3>
+          <p>Log in to your first live session on <span id="cohortStart">cohort start date</span>. Let's code!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="confirmation-cta">
+    <div class="container reveal">
+      <h2>Questions Before You Start?</h2>
+      <p>Our student success team is here to help. Reach out anytime.</p>
+      <a href="about.html#contact" class="btn btn-lg">Contact Support</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+            CodeCraft<span>Academy</span>
+          </a>
+          <p>Transforming careers through intensive, hands-on tech education. Join 500+ graduates who changed their lives.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Learn</h4>
+          <a href="courses.html">All Courses</a>
+          <a href="courses.html#syllabus">Syllabus</a>
+          <a href="pricing.html">Pricing</a>
+        </div>
+        <div class="footer-links">
+          <h4>Company</h4>
+          <a href="about.html">About Us</a>
+          <a href="about.html#team">Our Team</a>
+          <a href="about.html#contact">Contact</a>
+        </div>
+        <div class="footer-links">
+          <h4>Support</h4>
+          <a href="#">FAQ</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 CodeCraft Academy. All rights reserved.</span>
+        <span>Made with 💙 for aspiring developers</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('mobileMenu');
+      const toggle = document.querySelector('.mobile-toggle');
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+        menu.classList.remove('active');
+      }
+    });
+
+    // Parse URL parameters and populate receipt
+    function getUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        ref: params.get('ref') || 'N/A',
+        plan: params.get('plan') || 'standard',
+        cohort: params.get('cohort') || 'june-2026',
+        name: params.get('name') || 'Student',
+        email: params.get('email') || '—',
+        amount: params.get('amount') || '0'
+      };
+    }
+
+    function formatAmount(amountStr) {
+      const amount = parseInt(amountStr);
+      return '₵' + (amount / 100).toFixed(2);
+    }
+
+    function formatPlan(plan) {
+      const plans = {
+        'standard': 'Standard — ₵2,500',
+        'upfront': 'Pay Upfront — ₵2,250',
+        'plan': 'Payment Plan — ₵500 + 4× ₵500'
+      };
+      return plans[plan] || plan;
+    }
+
+    function formatCohort(cohort) {
+      const cohorts = {
+        'june-2026': 'June 2026 (Starts June 1)',
+        'august-2026': 'August 2026 (Starts Aug 3)',
+        'october-2026': 'October 2026 (Starts Oct 5)'
+      };
+      return cohorts[cohort] || cohort;
+    }
+
+    function formatCohortStart(cohort) {
+      const starts = {
+        'june-2026': 'June 1, 2026',
+        'august-2026': 'August 3, 2026',
+        'october-2026': 'October 5, 2026'
+      };
+      return starts[cohort] || 'your cohort start date';
+    }
+
+    // Populate page with payment data
+    const data = getUrlParams();
+
+    document.getElementById('studentName').textContent = data.name.split(' ')[0] || 'Student';
+    document.getElementById('receiptRef').textContent = data.ref;
+    document.getElementById('receiptName').textContent = data.name;
+    document.getElementById('receiptEmail').textContent = data.email;
+    document.getElementById('receiptPlan').textContent = formatPlan(data.plan);
+    document.getElementById('receiptCohort').textContent = formatCohort(data.cohort);
+    document.getElementById('receiptDate').textContent = new Date().toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+    document.getElementById('receiptReference').textContent = data.ref;
+    document.getElementById('receiptAmount').textContent = formatAmount(data.amount);
+    document.getElementById('nextEmail').textContent = data.email;
+    document.getElementById('cohortStart').textContent = formatCohortStart(data.cohort);
+
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Sticky nav shadow
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        navbar.style.boxShadow = '0 2px 12px rgba(0,0,0,0.06)';
+      } else {
+        navbar.style.boxShadow = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>
