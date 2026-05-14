@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Courses — CodeCraft Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ============================================
+       COURSES PAGE STYLES — WITH ANIMATIONS
+       ============================================ */
+
+    /* ---- Page Header ---- */
+    .page-header {
+      background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 50%, #fff7ed 100%);
+      padding: 4rem 0 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    [data-theme="dark"] .page-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #1c1917 100%);
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--color-glow-primary) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite;
+    }
+
+    .page-header h1 {
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-header p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-header .program-meta {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-header .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      background: var(--color-surface);
+      border-radius: 999px;
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .page-header .meta-item:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-primary);
+    }
+
+    /* ---- Courses Grid (parallel courses) ---- */
+    .courses-detail {
+      background: var(--color-bg);
+      padding: 4rem 0;
+      position: relative;
+    }
+
+    .courses-grid-detail {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .course-detail-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-border);
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .course-detail-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary), var(--color-accent));
+      background-size: 200% 100%;
+      opacity: 0;
+      transition: opacity 0.3s;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    .course-detail-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 0 30px var(--color-glow-primary);
+    }
+
+    [data-theme="dark"] .course-detail-card:hover {
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px var(--color-glow-primary);
+    }
+
+    .course-detail-card:hover::before {
+      opacity: 1;
+    }
+
+    .course-number-badge {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 15px var(--color-glow-primary);
+      transition: all 0.4s ease;
+    }
+
+    .course-detail-card:hover .course-number-badge {
+      transform: scale(1.15) rotate(10deg);
+      box-shadow: 0 8px 25px var(--color-glow-primary);
+    }
+
+    .course-detail-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    .course-detail-card .duration {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--color-bg);
+      color: var(--color-primary);
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      border: 1px solid var(--color-border);
+    }
+
+    .course-detail-card > p {
+      color: var(--color-text-light);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ---- Syllabus Accordion ---- */
+    .syllabus-toggle {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 0.875rem 1.25rem;
+      width: 100%;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--color-text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+      margin-bottom: 0.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .syllabus-toggle::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+      opacity: 0.1;
+      transition: width 0.4s ease;
+    }
+
+    .syllabus-toggle:hover::before {
+      width: 100%;
+    }
+
+    .syllabus-toggle:hover {
+      border-color: var(--color-primary);
+      padding-left: 1.5rem;
+    }
+
+    .syllabus-toggle .chevron {
+      transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      font-size: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .syllabus-toggle.active .chevron {
+      transform: rotate(180deg);
+    }
+
+    .syllabus-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
+      padding: 0 1.25rem;
+    }
+
+    .syllabus-content.open {
+      max-height: 600px;
+      padding: 0.5rem 1.25rem 1.25rem;
+    }
+
+    .syllabus-list {
+      list-style: none;
+    }
+
+    .syllabus-list li {
+      padding: 0.6rem 0;
+      padding-left: 1.75rem;
+      position: relative;
+      color: var(--color-text-light);
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--color-border);
+      transition: all 0.3s ease;
+    }
+
+    .syllabus-list li:last-child {
+      border-bottom: none;
+    }
+
+    .syllabus-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--color-success);
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+
+    .syllabus-list li:hover {
+      color: var(--color-text);
+      padding-left: 0.5rem;
+    }
+
+    .syllabus-list li:hover::before {
+      transform: scale(1.3);
+    }
+
+    /* ---- Skills & Tech Stack ---- */
+    .tech-section {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .tech-section h4 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .tech-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .tech-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      color: var(--color-text);
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .tech-pill:hover {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      color: white;
+      border-color: transparent;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--color-glow-primary);
+    }
+
+    /* ---- Learning Outcomes ---- */
+    .outcomes-section {
+      background: var(--color-surface);
+      padding: 4rem 0;
+      position: relative;
+    }
+
+    .outcomes-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-secondary), transparent);
+    }
+
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .outcome-card {
+      background: var(--color-bg);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      border: 1px solid var(--color-border);
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .outcome-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      border-radius: var(--radius-lg);
+    }
+
+    .outcome-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1), 0 0 25px var(--color-glow-primary);
+      border-color: transparent;
+    }
+
+    [data-theme="dark"] .outcome-card:hover {
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3), 0 0 25px var(--color-glow-primary);
+    }
+
+    .outcome-card:hover::before {
+      opacity: 0.05;
+    }
+
+    .outcome-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .outcome-card:nth-child(1) .outcome-icon { background: linear-gradient(135deg, #e0f2fe, #bae6fd); }
+    .outcome-card:nth-child(2) .outcome-icon { background: linear-gradient(135deg, #ccfbf1, #99f6e4); }
+    .outcome-card:nth-child(3) .outcome-icon { background: linear-gradient(135deg, #ffedd5, #fed7aa); }
+    .outcome-card:nth-child(4) .outcome-icon { background: linear-gradient(135deg, #fce7f3, #fbcfe8); }
+    .outcome-card:nth-child(5) .outcome-icon { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); }
+    .outcome-card:nth-child(6) .outcome-icon { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
+
+    [data-theme="dark"] .outcome-card:nth-child(1) .outcome-icon { background: linear-gradient(135deg, rgba(14,165,233,0.2), rgba(56,189,248,0.3)); }
+    [data-theme="dark"] .outcome-card:nth-child(2) .outcome-icon { background: linear-gradient(135deg, rgba(20,184,166,0.2), rgba(45,212,191,0.3)); }
+    [data-theme="dark"] .outcome-card:nth-child(3) .outcome-icon { background: linear-gradient(135deg, rgba(249,115,22,0.2), rgba(251,146,60,0.3)); }
+    [data-theme="dark"] .outcome-card:nth-child(4) .outcome-icon { background: linear-gradient(135deg, rgba(236,72,153,0.2), rgba(244,114,182,0.3)); }
+    [data-theme="dark"] .outcome-card:nth-child(5) .outcome-icon { background: linear-gradient(135deg, rgba(168,85,247,0.2), rgba(192,132,252,0.3)); }
+    [data-theme="dark"] .outcome-card:nth-child(6) .outcome-icon { background: linear-gradient(135deg, rgba(34,197,94,0.2), rgba(74,222,128,0.3)); }
+
+    .outcome-card:hover .outcome-icon {
+      transform: scale(1.15) rotate(10deg);
+      box-shadow: 0 8px 25px var(--color-glow-primary);
+    }
+
+    .outcome-card h4 {
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .outcome-card p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ---- Weekly Schedule Overview ---- */
+    .schedule-section {
+      background: var(--color-bg);
+      padding: 4rem 0;
+    }
+
+    .schedule-table {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--color-border);
+    }
+
+    .schedule-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1.5fr;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .schedule-row:hover {
+      background: var(--color-bg);
+      transform: translateX(5px);
+    }
+
+    .schedule-row:last-child {
+      border-bottom: none;
+    }
+
+    .schedule-row.header {
+      background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .schedule-row .week {
+      font-weight: 700;
+      color: var(--color-primary);
+      transition: all 0.3s ease;
+    }
+
+    .schedule-row:hover .week {
+      transform: scale(1.1);
+    }
+
+    .schedule-row.header .week {
+      color: white;
+    }
+
+    .schedule-row .topic {
+      color: var(--color-text);
+      font-weight: 500;
+    }
+
+    .schedule-row .format {
+      color: var(--color-text-light);
+      font-size: 0.9rem;
+    }
+
+    /* ---- CTA Banner ---- */
+    .courses-cta-banner {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+      padding: 4rem 0;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .courses-cta-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .courses-cta-banner h2 {
+      color: white;
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .courses-cta-banner p {
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 1.5rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .courses-cta-banner .btn {
+      background: white;
+      color: var(--color-primary);
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+      animation: pulseGlow 3s ease infinite;
+    }
+
+    .courses-cta-banner .btn:hover {
+      background: var(--color-bg);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      z-index: 99;
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+    }
+
+    .mobile-menu.active {
+      display: block;
+      animation: slideUpTilt 0.3s ease;
+    }
+
+    .mobile-menu a {
+      display: block;
+      padding: 0.75rem 0;
+      font-weight: 500;
+      border-bottom: 1px solid var(--color-border);
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu a:hover {
+      color: var(--color-primary);
+      padding-left: 10px;
+    }
+
+    .mobile-menu a:last-child {
+      border-bottom: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .courses-grid-detail {
+        grid-template-columns: 1fr;
+      }
+
+      .schedule-row {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+        padding: 1rem;
+      }
+
+      .schedule-row.header {
+        display: none;
+      }
+
+      .schedule-row .week {
+        font-size: 0.85rem;
+      }
+
+      .schedule-row .topic {
+        font-weight: 600;
+      }
+
+      .schedule-row .format {
+        font-size: 0.85rem;
+        color: var(--color-text-muted);
+      }
+
+      .schedule-row .format::before {
+        content: 'Format: ';
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+  </div>
+  <div class="grid-pattern"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>
+        CodeCraft<span>Academy</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="courses.html" class="active">Courses</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+      </ul>
+      <div class="nav-cta">
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+          <div class="theme-toggle-slider">
+            <span class="sun">☀️</span>
+            <span class="moon">🌙</span>
+          </div>
+        </button>
+        <a href="pricing.html" class="btn btn-primary">Enroll Now</a>
+        <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="courses.html">Courses</a>
+    <a href="about.html">About</a>
+    <a href="pricing.html">Pricing & Enrollment</a>
+  </div>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="container reveal">
+      <h1>Our Five Core Courses</h1>
+      <p>Five intensive, parallel tracks running throughout the entire 8-week bootcamp. Every student takes all five courses simultaneously for a comprehensive, immersive experience.</p>
+      <div class="program-meta">
+        <span class="meta-item">📅 8 Weeks Total</span>
+        <span class="meta-item">📚 5 Parallel Courses</span>
+        <span class="meta-item">⏱ ~20 hrs/week</span>
+        <span class="meta-item">🎓 All Tracks Included</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Courses Detail Grid -->
+  <section class="courses-detail" id="syllabus">
+    <div class="container">
+      <div class="courses-grid-detail stagger-children">
+
+        <!-- Course 1 -->
+        <div class="course-detail-card reveal hover-lift">
+          <div class="course-number-badge">01</div>
+          <h3>Web Development Fundamentals</h3>
+          <span class="duration">⏱ Full 8-Week Program</span>
+          <p>
+            Build a rock-solid foundation in the core technologies of the web. Learn to structure content with semantic HTML, style it beautifully with CSS, and add interactivity with vanilla JavaScript — practiced and reinforced throughout the bootcamp.
+          </p>
+
+          <button class="syllabus-toggle" onclick="toggleSyllabus(this)">
+            View Full Syllabus <span class="chevron">▼</span>
+          </button>
+          <div class="syllabus-content">
+            <ul class="syllabus-list">
+              <li>HTML5 semantic elements, forms, and accessibility</li>
+              <li>CSS3 selectors, box model, flexbox, and CSS Grid</li>
+              <li>Responsive design principles and mobile-first approach</li>
+              <li>JavaScript fundamentals: variables, functions, loops, conditionals</li>
+              <li>DOM manipulation and event handling</li>
+              <li>Debugging with browser DevTools</li>
+              <li>Weekly projects reinforcing each concept</li>
+              <li>Final: Build a responsive personal portfolio website</li>
+            </ul>
+          </div>
+
+          <div class="tech-section">
+            <h4>Technologies & Skills</h4>
+            <div class="tech-grid">
+              <span class="tech-pill">HTML5</span>
+              <span class="tech-pill">CSS3</span>
+              <span class="tech-pill">JavaScript ES6+</span>
+              <span class="tech-pill">Flexbox</span>
+              <span class="tech-pill">CSS Grid</span>
+              <span class="tech-pill">DevTools</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 2 -->
+        <div class="course-detail-card reveal hover-lift">
+          <div class="course-number-badge">02</div>
+          <h3>Frontend Frameworks & React</h3>
+          <span class="duration">⏱ Full 8-Week Program</span>
+          <p>
+            Level up from vanilla JS to modern component-based architecture. Master React's declarative UI model, state management with hooks, and utility-first styling with Tailwind CSS — integrated into every week's work.
+          </p>
+
+          <button class="syllabus-toggle" onclick="toggleSyllabus(this)">
+            View Full Syllabus <span class="chevron">▼</span>
+          </button>
+          <div class="syllabus-content">
+            <ul class="syllabus-list">
+              <li>React components, JSX, and the virtual DOM</li>
+              <li>State management with useState and useReducer</li>
+              <li>Side effects with useEffect and custom hooks</li>
+              <li>Props, component composition, and lifting state up</li>
+              <li>React Router for single-page navigation</li>
+              <li>Tailwind CSS utility classes and customization</li>
+              <li>Weekly projects building React components</li>
+              <li>Final: Build an interactive task management dashboard</li>
+            </ul>
+          </div>
+
+          <div class="tech-section">
+            <h4>Technologies & Skills</h4>
+            <div class="tech-grid">
+              <span class="tech-pill">React 18</span>
+              <span class="tech-pill">JSX</span>
+              <span class="tech-pill">Hooks</span>
+              <span class="tech-pill">Tailwind CSS</span>
+              <span class="tech-pill">React Router</span>
+              <span class="tech-pill">Vite</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 3 -->
+        <div class="course-detail-card reveal hover-lift">
+          <div class="course-number-badge">03</div>
+          <h3>Backend & APIs</h3>
+          <span class="duration">⏱ Full 8-Week Program</span>
+          <p>
+            Move to the server side from day one. Build RESTful APIs with Node.js and Express, handle authentication securely, and work with both SQL and NoSQL databases — skills you build on week after week.
+          </p>
+
+          <button class="syllabus-toggle" onclick="toggleSyllabus(this)">
+            View Full Syllabus <span class="chevron">▼</span>
+          </button>
+          <div class="syllabus-content">
+            <ul class="syllabus-list">
+              <li>Node.js runtime, modules, and npm ecosystem</li>
+              <li>Express.js routing, middleware, and error handling</li>
+              <li>RESTful API design principles and best practices</li>
+              <li>JWT authentication and password hashing with bcrypt</li>
+              <li>MongoDB with Mongoose ODM</li>
+              <li>PostgreSQL basics and relational data modeling</li>
+              <li>Weekly API-building challenges</li>
+              <li>Final: Build a full-featured REST API for a blog platform</li>
+            </ul>
+          </div>
+
+          <div class="tech-section">
+            <h4>Technologies & Skills</h4>
+            <div class="tech-grid">
+              <span class="tech-pill">Node.js</span>
+              <span class="tech-pill">Express</span>
+              <span class="tech-pill">MongoDB</span>
+              <span class="tech-pill">Mongoose</span>
+              <span class="tech-pill">PostgreSQL</span>
+              <span class="tech-pill">JWT</span>
+              <span class="tech-pill">bcrypt</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 4 -->
+        <div class="course-detail-card reveal hover-lift">
+          <div class="course-number-badge">04</div>
+          <h3>Full-Stack Integration</h3>
+          <span class="duration">⏱ Full 8-Week Program</span>
+          <p>
+            Connect frontend and backend into a cohesive application from the start. Learn deployment strategies, environment management, and CI/CD basics — applied to projects throughout the program.
+          </p>
+
+          <button class="syllabus-toggle" onclick="toggleSyllabus(this)">
+            View Full Syllabus <span class="chevron">▼</span>
+          </button>
+          <div class="syllabus-content">
+            <ul class="syllabus-list">
+              <li>Connecting React frontend to Express API (CORS, fetch/axios)</li>
+              <li>Environment variables and configuration management</li>
+              <li>Deploying frontend to Vercel/Netlify</li>
+              <li>Deploying backend to Render/Railway</li>
+              <li>Git branching strategies and pull request workflows</li>
+              <li>CI/CD with GitHub Actions basics</li>
+              <li>Weekly deployment milestones</li>
+              <li>Final: Deploy your first full-stack application live</li>
+            </ul>
+          </div>
+
+          <div class="tech-section">
+            <h4>Technologies & Skills</h4>
+            <div class="tech-grid">
+              <span class="tech-pill">REST APIs</span>
+              <span class="tech-pill">Axios</span>
+              <span class="tech-pill">CORS</span>
+              <span class="tech-pill">GitHub Actions</span>
+              <span class="tech-pill">Vercel</span>
+              <span class="tech-pill">Render</span>
+              <span class="tech-pill">Docker (intro)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 5 -->
+        <div class="course-detail-card reveal hover-lift">
+          <div class="course-number-badge">05</div>
+          <h3>Capstone & Career Prep</h3>
+          <span class="duration">⏱ Full 8-Week Program</span>
+          <p>
+            Work on your capstone project from week one, iterating and improving as you learn. Polish your portfolio, practice interviewing, and build a job search strategy alongside your technical growth.
+          </p>
+
+          <button class="syllabus-toggle" onclick="toggleSyllabus(this)">
+            View Full Syllabus <span class="chevron">▼</span>
+          </button>
+          <div class="syllabus-content">
+            <ul class="syllabus-list">
+              <li>Capstone project planning and iterative development</li>
+              <li>Advanced React patterns and performance optimization</li>
+              <li>Testing with Jest and React Testing Library</li>
+              <li>Portfolio website design and content strategy</li>
+              <li>Technical interview prep: algorithms and system design</li>
+              <li>Behavioral interview techniques and storytelling</li>
+              <li>Resume writing, LinkedIn optimization, and networking</li>
+              <li>Final project presentation and peer review</li>
+            </ul>
+          </div>
+
+          <div class="tech-section">
+            <h4>Technologies & Skills</h4>
+            <div class="tech-grid">
+              <span class="tech-pill">Jest</span>
+              <span class="tech-pill">React Testing Library</span>
+              <span class="tech-pill">Portfolio</span>
+              <span class="tech-pill">System Design</span>
+              <span class="tech-pill">Interview Prep</span>
+              <span class="tech-pill">Career Strategy</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Learning Outcomes -->
+  <section class="outcomes-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>What You'll Be Able to Do</h2>
+        <p>By the end of the bootcamp, you'll have the skills and confidence to build and deploy production-ready applications.</p>
+      </div>
+      <div class="outcomes-grid stagger-children">
+        <div class="outcome-card reveal">
+          <div class="outcome-icon">🎨</div>
+          <h4>Design Responsive UIs</h4>
+          <p>Build beautiful, mobile-first interfaces using modern CSS and component libraries that look great on any device.</p>
+        </div>
+        <div class="outcome-card reveal">
+          <div class="outcome-icon">⚛️</div>
+          <h4>Build Interactive React Apps</h4>
+          <p>Create dynamic single-page applications with state management, routing, and reusable component architecture.</p>
+        </div>
+        <div class="outcome-card reveal">
+          <div class="outcome-icon">🔌</div>
+          <h4>Develop RESTful APIs</h4>
+          <p>Design and implement secure backend services with authentication, database integration, and proper error handling.</p>
+        </div>
+        <div class="outcome-card reveal">
+          <div class="outcome-icon">🚀</div>
+          <h4>Deploy to Production</h4>
+          <p>Take applications from local development to live servers with CI/CD pipelines and cloud deployment.</p>
+        </div>
+        <div class="outcome-card reveal">
+          <div class="outcome-icon">🧪</div>
+          <h4>Write Tested Code</h4>
+          <p>Implement unit and integration tests to ensure code quality and catch bugs before they reach production.</p>
+        </div>
+        <div class="outcome-card reveal">
+          <div class="outcome-icon">💼</div>
+          <h4>Land a Developer Job</h4>
+          <p>Present a polished portfolio, ace technical interviews, and navigate the job market with confidence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Weekly Schedule Overview -->
+  <section class="schedule-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Weekly Schedule Overview</h2>
+        <p>~20 hours per week across all five courses. A mix of live sessions, self-paced modules, and hands-on projects.</p>
+      </div>
+      <div class="schedule-table reveal">
+        <div class="schedule-row header">
+          <div>Week</div>
+          <div>Focus Themes (All 5 Courses)</div>
+          <div>Format</div>
+        </div>
+        <div class="schedule-row">
+          <div class="week">Week 1</div>
+          <div class="topic">Foundations: HTML/CSS setup, React intro, Node basics, Git workflows, Project planning</div>
+          <div class="format">Live + Self-paced + Project</div>
+        </div>
+        <div class="schedule-row">
+          <div class="week">Week 2</div>
+          <div class="topic">Layouts: CSS Grid/Flexbox, Components, Express routing, API calls, Portfolio setup</div>
+          <div class="format">Live + Self-paced + Project</div>
+        </div>
+        <div class="schedule-row">
+          <div class="week">Week 3</div>
+          <div class="topic">Interactivity: JS events, State & Props, Middleware, Frontend-backend connect, Resume draft</div>
+          <div class="format">Live + Self-paced + Project</div>
+        </div>
+        <div class="schedule-row">
+          <div class="week">Week 4</div>
+          <div class="topic">Data: Forms & validation, Hooks, Database design, Deployment intro, Mock interview #1</div>
+          <div class="format">Live + Self-paced + Project</div>
+        </div>
+        <div class="schedule-row">
+          <div class="week">Week 5</div>
+          <div class="topic">Auth: JWT concepts, Custom hooks, Authentication, Environment configs, LinkedIn polish</div>
+          <div class="format">Live + Self-paced + Project</div>
+        </div>
+        <div class="schedule-row">
+          <div class="week">Week 6</div>
+          <div class="topic">Integration: Full-stack features, Testing basics, CI/CD pipelines, Production deploy, Peer review</div>
+          <div class="format">Live + Self-paced + Project</div>
+        </div>
+        <div class="schedule-row">
+          <div class="week">Week 7</div>
+          <div class="topic">Polish: Performance, Advanced patterns, Error handling, Monitoring, Mock interview #2</div>
+          <div class="format">Live + Capstone + Career</div>
+        </div>
+        <div class="schedule-row">
+          <div class="week">Week 8</div>
+          <div class="topic">Launch: Final capstone, Presentation prep, Portfolio finalize, Job search strategy, Graduation</div>
+          <div class="format">Live + Capstone + Career</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="courses-cta-banner">
+    <div class="container reveal">
+      <h2>Start Building Your Future</h2>
+      <p>Enrollment is open for our June cohort. All five courses, one immersive experience.</p>
+      <a href="pricing.html" class="btn btn-lg magnetic">Enroll Now — ₵500 Registration</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+            CodeCraft<span>Academy</span>
+          </a>
+          <p>Transforming careers through intensive, hands-on tech education. Join 500+ graduates who changed their lives.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Learn</h4>
+          <a href="courses.html">All Courses</a>
+          <a href="courses.html#syllabus">Syllabus</a>
+          <a href="pricing.html">Pricing</a>
+        </div>
+        <div class="footer-links">
+          <h4>Company</h4>
+          <a href="about.html">About Us</a>
+          <a href="about.html#team">Our Team</a>
+          <a href="about.html#contact">Contact</a>
+        </div>
+        <div class="footer-links">
+          <h4>Support</h4>
+          <a href="#">FAQ</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 CodeCraft Academy. All rights reserved.</span>
+        <span>Made with 💙 for aspiring developers</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Theme toggle
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('mobileMenu');
+      const toggle = document.querySelector('.mobile-toggle');
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+        menu.classList.remove('active');
+      }
+    });
+
+    // Syllabus accordion toggle
+    function toggleSyllabus(button) {
+      const content = button.nextElementSibling;
+      const isOpen = content.classList.contains('open');
+
+      // Close all other accordions
+      document.querySelectorAll('.syllabus-content.open').forEach(el => {
+        el.classList.remove('open');
+        el.previousElementSibling.classList.remove('active');
+      });
+
+      // Toggle current
+      if (!isOpen) {
+        content.classList.add('open');
+        button.classList.add('active');
+      }
+    }
+
+    // Magnetic button effect
+    document.querySelectorAll('.magnetic').forEach(btn => {
+      btn.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        this.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.05)`;
+      });
+      
+      btn.addEventListener('mouseleave', function() {
+        this.style.transform = '';
+      });
+    });
+
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Sticky nav shadow
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+      } else {
+        navbar.style.boxShadow = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>
