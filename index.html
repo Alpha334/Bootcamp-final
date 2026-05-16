@@ -333,6 +333,125 @@
       z-index: 10;
     }
 
+        /* ============================================
+       TEXT CAROUSEL — ROTATING OUTCOMES
+       ============================================ */
+
+    .text-carousel {
+      display: inline-block;
+      position: relative;
+      height: 1.2em;
+      vertical-align: bottom;
+      overflow: hidden;
+      min-width: 280px;
+    }
+
+    .carousel-track {
+      display: flex;
+      flex-direction: column;
+      animation: carouselSlide 15s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    .carousel-item {
+      display: block;
+      height: 1.2em;
+      line-height: 1.2em;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(100%);
+      animation: carouselItem 15s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    /* Each item gets a staggered animation delay */
+    .carousel-item:nth-child(1) { animation-delay: 0s; }
+    .carousel-item:nth-child(2) { animation-delay: 2.5s; }
+    .carousel-item:nth-child(3) { animation-delay: 5s; }
+    .carousel-item:nth-child(4) { animation-delay: 7.5s; }
+    .carousel-item:nth-child(5) { animation-delay: 10s; }
+    .carousel-item:nth-child(6) { animation-delay: 12.5s; }
+
+    /* Keyframe: each item slides in, holds, then slides out */
+    @keyframes carouselItem {
+      0% {
+        opacity: 0;
+        transform: translateY(100%) scale(0.9);
+        filter: blur(4px);
+      }
+      3% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+      13.33% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+      16.33% {
+        opacity: 0;
+        transform: translateY(-100%) scale(0.9);
+        filter: blur(4px);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100%) scale(0.9);
+        filter: blur(4px);
+      }
+    }
+
+    /* The track shifts to keep current item centered visually */
+    @keyframes carouselSlide {
+      0%   { transform: translateY(0); }
+      3%   { transform: translateY(0); }
+      16.33% { transform: translateY(-1.2em); }
+      19.33% { transform: translateY(-1.2em); }
+      32.66% { transform: translateY(-2.4em); }
+      35.66% { transform: translateY(-2.4em); }
+      49%    { transform: translateY(-3.6em); }
+      52%    { transform: translateY(-3.6em); }
+      65.33% { transform: translateY(-4.8em); }
+      68.33% { transform: translateY(-4.8em); }
+      81.66% { transform: translateY(-6em); }
+      84.66% { transform: translateY(-6em); }
+      100%   { transform: translateY(0); }
+    }
+
+    /* Responsive: shrink carousel width on mobile */
+    @media (max-width: 768px) {
+      .text-carousel {
+        min-width: 220px;
+        height: 1.15em;
+      }
+
+      .carousel-item {
+        height: 1.15em;
+        line-height: 1.15em;
+        font-size: 0.9em;
+      }
+
+      @keyframes carouselSlide {
+        0%   { transform: translateY(0); }
+        3%   { transform: translateY(0); }
+        16.33% { transform: translateY(-1.15em); }
+        19.33% { transform: translateY(-1.15em); }
+        32.66% { transform: translateY(-2.3em); }
+        35.66% { transform: translateY(-2.3em); }
+        49%    { transform: translateY(-3.45em); }
+        52%    { transform: translateY(-3.45em); }
+        65.33% { transform: translateY(-4.6em); }
+        68.33% { transform: translateY(-4.6em); }
+        81.66% { transform: translateY(-5.75em); }
+        84.66% { transform: translateY(-5.75em); }
+        100%   { transform: translateY(0); }
+      }
+    }
+
+    @media (max-width: 480px) {
+      .text-carousel {
+        min-width: 180px;
+      }
+    }
+
     .code-snippet {
       font-family: 'SF Mono', monospace;
       font-size: 0.8rem;
@@ -931,72 +1050,87 @@
     <a href="pricing.html">Pricing & Enrollment</a>
   </div>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-bg-shapes">
-      <div class="hero-shape hero-shape-1"></div>
-      <div class="hero-shape hero-shape-2"></div>
-      <div class="hero-shape hero-shape-3"></div>
-      <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <span>⚡</span> Next cohort starts June 1st
-        </div>
-        <h1>Become a <span class="highlight gradient-text">Full-Stack Developer</span> in 8 Weeks</h1>
-        <p class="hero-subtitle">
-          Intensive, hands-on coding bootcamp designed to take you from beginner to job-ready. 
-          Live instruction, real projects, and a supportive community.
-        </p>
-        <div class="hero-cta">
-          <a href="pricing.html" class="btn btn-primary magnetic">Start Your Journey — ₵500</a>
-          <a href="courses.html" class="btn btn-outline magnetic">Explore Curriculum</a>
-        </div>
-        <div class="hero-stats">
-          <div class="stat">
-            <span class="stat-number">500+</span>
-            <span class="stat-label">Graduates</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">92%</span>
-            <span class="stat-label">Job Placement</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">4.9★</span>
-            <span class="stat-label">Student Rating</span>
-          </div>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-bg-shapes">
+        <div class="hero-shape hero-shape-1"></div>
+        <div class="hero-shape hero-shape-2"></div>
+        <div class="hero-shape hero-shape-3"></div>
+        <div class="particles">
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
+          <div class="particle"></div>
         </div>
       </div>
-      <div class="hero-visual">
-        <div class="hero-card code">
-          <div class="code-snippet">
-            <span class="kw">const</span> <span class="fn">dreamJob</span> = <span class="str">"Software Engineer"</span>;<br>
-            <span class="kw">await</span> <span class="fn">bootcamp</span>.<<span class="fn">enroll</span>();<<br>
-            <span class="fn">console</span>.<<span class="fn">log</span>(<<span class="str">"Hello, World!"</span>);
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span>⚡</span> Next cohort starts June 1st
+          </div>
+          
+          <h1>
+            Become a 
+            <span class="text-carousel">
+              <span class="carousel-track">
+                <span class="carousel-item gradient-text">Full-Stack Developer</span>
+                <span class="carousel-item gradient-text">Frontend Specialist</span>
+                <span class="carousel-item gradient-text">React Engineer</span>
+                <span class="carousel-item gradient-text">Backend Architect</span>
+                <span class="carousel-item gradient-text">DevOps Professional</span>
+                <span class="carousel-item gradient-text">Job-Ready Developer</span>
+              </span>
+            </span>
+            in 8 Weeks
+          </h1>
+          
+          <p class="hero-subtitle">
+            Intensive, hands-on coding bootcamp designed to take you from beginner to job-ready. 
+            Live instruction, real projects, and a supportive community.
+          </p>
+          <div class="hero-cta">
+            <a href="pricing.html" class="btn btn-primary magnetic">Start Your Journey — ₵500</a>
+            <a href="courses.html" class="btn btn-outline magnetic">Explore Curriculum</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-number">500+</span>
+              <span class="stat-label">Graduates</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">92%</span>
+              <span class="stat-label">Job Placement</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">4.9★</span>
+              <span class="stat-label">Student Rating</span>
+            </div>
           </div>
         </div>
-        <div class="hero-card students">
-          <div class="avatars">
-            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=face" alt="Student">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face" alt="Student">
-            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face" alt="Student">
+        <div class="hero-visual">
+          <div class="hero-card code">
+            <div class="code-snippet">
+              <span class="kw">const</span> <span class="fn">dreamJob</span> = <span class="str">"Software Engineer"</span>;<br>
+              <span class="kw">await</span> <span class="fn">bootcamp</span>.<span class="fn">enroll</span>();<br>
+              <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Hello, World!"</span>);
+            </div>
           </div>
-          <span style="font-size:0.8rem; font-weight:600;">+247 joining this week</span>
+          <div class="hero-card students">
+            <div class="avatars">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&fit=crop&crop=face" alt="Student">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face" alt="Student">
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face" alt="Student">
+            </div>
+            <span style="font-size:0.8rem; font-weight:600;">+247 joining this week</span>
+          </div>
+          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=450&fit=crop" alt="Students collaborating" class="hero-main-img" />
         </div>
-        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=450&fit=crop" alt="Students collaborating" class="hero-main-img" />
       </div>
-    </div>
-  </section>
+    </section>
 
   <!-- Courses Preview -->
   <section class="courses-preview">
